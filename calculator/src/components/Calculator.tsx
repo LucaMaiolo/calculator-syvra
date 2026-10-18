@@ -1,5 +1,5 @@
 "use client";
-import {useState} from "react";
+import { useEffect, useState } from "react";
 
 export default function Calculator() {
     const [display, setDisplay] = useState("0");
@@ -7,8 +7,23 @@ export default function Calculator() {
     const [operator, setOperator] = useState<string | null>(null);
     const [startNewNumber, setStartNewNumber] = useState(false);
 
+    //ai generated - view link in readme for convo
+    const operatorSymbol =    
+    operator === "*" ? "×" :
+    operator === "/" ? "÷" :
+    operator;
+    const displayText =
+        firstNumber !== null && operatorSymbol !== null
+        ? `${firstNumber}${operatorSymbol}${startNewNumber ? "" : display}`
+        : display;
 
-    
+
+    //ai generated - view link in readme for convo
+    const fontSize = Math.max(
+        28,
+        60 - Math.max(0, displayText.length - 8) * 4
+      );
+  
     function inputDigit(digit: string) {
         if (startNewNumber || display === "Error") {
           setDisplay(digit);
@@ -123,16 +138,93 @@ export default function Calculator() {
         setOperator(null);
         setStartNewNumber(true);
       }
+
+      //ai generated - view link in readme for convo
+      useEffect(() => {
+        function handleKeyDown(event: KeyboardEvent) {
+          if (event.ctrlKey || event.metaKey || event.altKey) return;
+      
+          const target = event.target;
+          if (
+            target instanceof HTMLElement &&
+            (target.isContentEditable ||
+              target.closest("input, textarea, select"))
+          ) {
+            return;
+          }
+      
+          const { key } = event;
+      
+          if (/^[0-9]$/.test(key)) {
+            event.preventDefault();
+            inputDigit(key);
+            return;
+          }
+      
+          switch (key) {
+            case "+":
+            case "-":
+            case "*":
+            case "/":
+              event.preventDefault();
+              selectOperator(key);
+              break;
+      
+            case ".":
+              event.preventDefault();
+              inputDecimal();
+              break;
+      
+            case "=":
+            case "Enter":
+              event.preventDefault();
+              equals();
+              break;
+      
+            case "Backspace":
+              event.preventDefault();
+              backspace();
+              break;
+      
+            case "Escape":
+              event.preventDefault();
+              clear();
+              break;
+      
+            case "%":
+              event.preventDefault();
+              percentage();
+              break;
+            case "x":
+            case "X":
+              event.preventDefault();
+              selectOperator("*");
+              break;
+          }
+          
+        }
+      
+        window.addEventListener("keydown", handleKeyDown);
+      
+        return () => {
+          window.removeEventListener("keydown", handleKeyDown);
+        };
+      });
     return (
         <main className="flex min-h-dvh items-center justify-center bg-zinc-950 p-4">
         <section
           aria-label="Calculator"
           className="w-full max-w-sm rounded-3xl bg-zinc-900 p-6 space-y-2"
         >
-          <output className="mb-6 block text-right text-6xl text-white">
-            {display}
-          </output>
-  
+          {/* //ai generated - view link in readme for convo */}
+          <output
+            className="mb-6 flex h-20 items-center overflow-x-auto whitespace-nowrap text-white">
+            <span
+                className="block w-max min-w-full shrink-0 text-right leading-none"
+                style={{ fontSize: `${fontSize}px` }}>
+                {displayText}
+            </span>
+        </output>
           <div className="grid grid-cols-4 gap-3">
             <button
               type="button"
