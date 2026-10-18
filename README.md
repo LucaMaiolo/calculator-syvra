@@ -1,3 +1,6 @@
+https://calculator-luca-maiolo.vercel.app/ 
+
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
@@ -20,6 +23,22 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
+## Unit tests
+
+Run the calculator unit tests once:
+
+```bash
+npm test
+```
+
+Re-run tests automatically while editing:
+
+```bash
+npm run test:watch
+```
+
+Tests live in `src/components/Calculator.test.tsx` and use Vitest with React Testing Library. They cover number entry, arithmetic, decimal precision, chained operations, clearing, error recovery, and keyboard controls.
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:
@@ -37,5 +56,4 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 ## AI assistance
 
-See the [AI assistance record and conversation link](../README.md#ai-assistance)
-for the changes marked `//ai generated - view link in readme for convo`.
+https://chatgpt.com/s/cx_6ad5497f4c248191946b3894e54c7b87 
