@@ -65,6 +65,8 @@ export default function Calculator() {
         );
       }
     function toggleSign() {
+      if (display === "Error") return;
+
         setDisplay((current) => {
           if (Number(current) === 0) return current;
       
