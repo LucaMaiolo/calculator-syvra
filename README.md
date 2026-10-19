@@ -1,59 +1,125 @@
-https://calculator-luca-maiolo.vercel.app/ 
+# Syvra Calculator
 
+A mobile-style calculator built by Luca Maiolo for the Syvra frontend technical test. The project uses React, Next.js, TypeScript, and Tailwind CSS, with support for button and keyboard input.
 
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+- [Live calculator](https://calculator-luca-maiolo.vercel.app/)
+- [GitHub repository](https://github.com/LucaMaiolo/calculator-syvra)
 
-## Getting Started
+## Features
 
-First, run the development server:
+- Addition, subtraction, multiplication, and division.
+- Decimal numbers, positive/negative sign toggle, and percentage conversion.
+- All clear (`AC`) and single-character deletion (`Back`).
+- Pending expression display with multiplication and division symbols.
+- Chained calculations and continued calculations using the previous result.
+- Division-by-zero error display, with recovery through clear, backspace, or new number entry.
+- Keyboard controls for desktop use.
+- Responsive layout with a constrained calculator width, square buttons, and a display that reduces its font size for longer expressions.
+
+## Technology
+
+- **Next.js App Router and React** for the application and interactive calculator.
+- **TypeScript** for type checking.
+- **Tailwind CSS** for layout, styling, and focus states.
+- **Vitest and React Testing Library** for component unit tests in a jsdom environment.
+- **Vercel** for hosting.
+
+The calculator keeps its state locally with React hooks. It does not require a backend, database, API key, or environment variables.
+
+## Run locally
+
+Use Node.js 24 LTS and npm.
 
 ```bash
+git clone https://github.com/LucaMaiolo/calculator-syvra.git
+cd calculator-syvra
+npm ci
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+To create and serve a production build locally:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build
+npm start
+```
 
-## Unit tests
+## Calculator behavior
 
-Run the calculator unit tests once:
+Select a number, choose an operator, enter a second number, and press `=`. After a result, entering a digit starts a new number; selecting an operator continues from the result.
+
+Chained operations evaluate from left to right, like a basic handheld calculator. For example, `2 + 3 × 4 =` produces `20`.
+
+The percentage button divides the displayed number by 100: `50 %` becomes `0.5`. It does not calculate a percentage relative to a pending first operand.
+
+Results are formatted to a maximum of 12 significant digits to reduce floating-point display artifacts. This calculator uses JavaScript numbers and is not intended for exact financial calculations.
+
+## Keyboard controls
+
+- **Digits `0–9`:** enter a number.
+- **`.`:** enter a decimal point.
+- **`+`, `-`, `*`, `/`:** select an arithmetic operator.
+- **`x` or `X`:** select multiplication.
+- **`Enter` or `=`:** calculate the result.
+- **`Backspace`:** delete the last character.
+- **`Escape`:** clear the calculator.
+- **`%`:** divide the displayed number by 100.
+
+Keyboard shortcuts are ignored when Ctrl, Command, or Alt is held, or when typing inside an input, textarea, or select element. The sign toggle is available through the `+/-` button.
+
+## Tests and checks
+
+Run the unit tests once:
 
 ```bash
 npm test
 ```
 
-Re-run tests automatically while editing:
+Automatically re-run tests while editing:
 
 ```bash
 npm run test:watch
 ```
 
-Tests live in `src/components/Calculator.test.tsx` and use Vitest with React Testing Library. They cover number entry, arithmetic, decimal precision, chained operations, clearing, error recovery, and keyboard controls.
+Run lint and TypeScript checks:
 
-## Learn More
+```bash
+npm run lint
+npx tsc --noEmit
+```
 
-To learn more about Next.js, take a look at the following resources:
+The suite contains 41 tests covering number entry, arithmetic, decimal precision, negative results, chained operations, operator replacement, clearing, division-by-zero recovery, keyboard controls, and keyboard listener cleanup.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Tests render the calculator component and exercise its buttons and keyboard events. They do not verify visual layout or replace browser checks on desktop and mobile.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Project structure
 
-## Deploy on Vercel
+```text
+src/
+  app/
+    page.tsx                 Calculator page
+    layout.tsx               Root layout and page metadata
+    globals.css              Global styles and Tailwind configuration
+  components/
+    Calculator.tsx           Calculator interface, state, and event handling
+    Calculator.test.tsx      Component unit tests
+vitest.config.mts            Test runner configuration
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Deployment
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+The hosted calculator is available on [Vercel](https://calculator-luca-maiolo.vercel.app/).
+
+To deploy your own copy, import the GitHub repository into Vercel, select the Next.js framework preset, and use the repository root as the project directory. No application environment variables are required.
+
+## Known limitation
+
+After a division-by-zero error, pressing `%` or `+/-` can change the error text to `NaN` or `-Error`. Use `AC` to reset the calculator.
 
 ## AI assistance
 
-https://chatgpt.com/s/cx_6ad5497f4c248191946b3894e54c7b87 
+ChatGPT was used to assist with parts of the implementation. The application source and unit tests are included in this repository.
+
+[Referenced development conversation](https://chatgpt.com/s/cx_6ad5497f4c248191946b3894e54c7b87)
